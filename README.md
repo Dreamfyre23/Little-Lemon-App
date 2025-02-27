@@ -16,3 +16,7 @@ This Android application is the final project of the Coursera Capstone by META. 
 ## Requirements
 Android SDK
 Android Build Tools
+
+## Wireframe Designs
+- [Figma](https://www.figma.com/design/3kEkgRCPhiUqvEvwAqGKUX/Little-Lemon-Menu-App-Prototype?node-id=0-1&t=TmwZAxXelm25R4xC-1)
+- ![Wireframe Image](FigmaWireframeDesign.png)
