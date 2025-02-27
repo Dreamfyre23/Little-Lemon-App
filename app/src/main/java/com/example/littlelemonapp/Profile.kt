@@ -11,10 +11,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,10 +50,23 @@ fun Profile(navController: NavHostController) {
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Little Lemon Logo",
             modifier = Modifier
-                .padding(bottom = 80.dp, top = 20.dp)
+                .padding(bottom = 0.dp, top = 20.dp)
                 .height(50.dp)
                 .fillMaxWidth()
         )
+
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .padding(start = 5.dp, top = 10.dp)
+                .size(40.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.Black
+            )
+        }
 
         Text(
             text = "Personal information",
@@ -56,8 +74,6 @@ fun Profile(navController: NavHostController) {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
-
-
 
         Text(
             text = "First name",
@@ -134,11 +150,6 @@ fun Profile(navController: NavHostController) {
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
-
-
-
-
-
         Spacer(modifier = Modifier.weight(1f))
 
 
@@ -158,8 +169,8 @@ fun Profile(navController: NavHostController) {
             shape = RoundedCornerShape(10.dp)
         ) {
             Text(text = "Log out")
+        //}
         }
-//        }
     }
 }
 
