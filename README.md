@@ -22,6 +22,6 @@ Android Build Tools
 - [Figma Link](https://www.figma.com/design/3kEkgRCPhiUqvEvwAqGKUX/Little-Lemon-Menu-App-Prototype?node-id=0-1&t=TmwZAxXelm25R4xC-1)
 
 ## Screenshots
-![On Boarding Screen](OnBoardingScreen.png)
-![Home Screen](HomeScreen.png)
-![Profile Screen](ProfileScreen.png)
+<img src="OnBoardingScreen.png" width="50%">
+<img src="HomeScreen.png" width="50%">
+<img src="ProfileScreen.png" width="50%">
