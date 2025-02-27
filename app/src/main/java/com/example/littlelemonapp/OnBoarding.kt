@@ -36,11 +36,17 @@ fun Onboarding(navController: NavHostController) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf(false) }
+
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
@@ -58,7 +64,7 @@ fun Onboarding(navController: NavHostController) {
                 .padding(50.dp)
                 .fillMaxWidth(),
             fontSize = 22.sp,
-            color = Color(0xFFFFFFFF),
+            color = Color.White,
             textAlign = TextAlign.Center
         )
 
@@ -89,27 +95,43 @@ fun Onboarding(navController: NavHostController) {
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = {
+                email = it
+                emailError = false  // Reset error when typing
+            },
             label = { Text(text = "Email") },
+            isError = emailError,
             modifier = Modifier
                 .padding(horizontal = 15.dp, vertical = 5.dp)
                 .fillMaxWidth()
         )
-        Spacer(modifier = Modifier.weight(1f))
+        if (emailError) {
+            Text(
+                text = "Invalid email format",
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(horizontal = 15.dp)
+            )
+        }
 
+        Spacer(modifier = Modifier.weight(1f))
 
         Button(
             onClick = {
-                if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {
+                emailError = !isValidEmail(email)  // Validate on button click
+
+                if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty() && !emailError) {
                     Toast.makeText(context, "Registration successful!", Toast.LENGTH_LONG).show()
-                    sharedPreferences.edit(commit = true) { putString("first_name", firstName) }
-                    sharedPreferences.edit(commit = true) { putString("last_name", lastName) }
-                    sharedPreferences.edit(commit = true) { putString("email", email) }
+                    sharedPreferences.edit(commit = true) {
+                        putString("first_name", firstName)
+                        putString("last_name", lastName)
+                        putString("email", email)
+                    }
                     navController.navigate(Home.route)
                 } else {
                     Toast.makeText(
                         context,
-                        "Registration unsuccessful. Please enter all data.",
+                        "Registration unsuccessful. Please enter all data correctly.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -119,12 +141,11 @@ fun Onboarding(navController: NavHostController) {
                 .padding(start = 15.dp, end = 15.dp, bottom = 30.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFF4CE14),
-                contentColor = Color(0xFF000000)
+                contentColor = Color.Black
             )
         ) {
             Text(text = "Register")
-
         }
     }
-
 }
+

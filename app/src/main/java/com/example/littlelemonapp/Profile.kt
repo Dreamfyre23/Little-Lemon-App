@@ -154,7 +154,7 @@ fun Profile(navController: NavHostController) {
                 containerColor = Color(0xFFF4CE14),
                 contentColor = Color(0xFF000000)
             ),
-            border = BorderStroke(2.dp, Color(0xFFFFA500)),
+            border = BorderStroke(2.dp, Color(0xFFF4CE14)),
             shape = RoundedCornerShape(10.dp)
         ) {
             Text(text = "Log out")

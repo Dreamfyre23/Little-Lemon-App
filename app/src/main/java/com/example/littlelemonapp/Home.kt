@@ -20,14 +20,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -85,12 +84,16 @@ fun Home(navController: NavHostController, database: AppDatabase) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroSection(menuItemsDatabase: List<MenuItemRoom>) {
     var menuItems = menuItemsDatabase
     var selectedCategory by remember { mutableStateOf("") }
+    var searchPhrase by remember { mutableStateOf("") }
 
+    val filteredMenuItems = menuItemsDatabase.filter { item ->
+        (searchPhrase.isEmpty() || item.title.contains(searchPhrase, ignoreCase = true)) &&
+                (selectedCategory.isEmpty() || item.category.contains(selectedCategory))
+    }
 
     Column(
         modifier = Modifier
@@ -134,11 +137,6 @@ fun HeroSection(menuItemsDatabase: List<MenuItemRoom>) {
 
 
         }
-        var searchPhrase by remember {
-            mutableStateOf("")
-        }
-
-
 
         TextField(
             label = { Text(text = "Enter search phrase") },
@@ -152,8 +150,9 @@ fun HeroSection(menuItemsDatabase: List<MenuItemRoom>) {
                 .height(60.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFFEAEAEA)),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                contentColorFor(backgroundColor = Color.Black)
+            colors = OutlinedTextFieldDefaults.colors(
+                contentColorFor(backgroundColor = Color.White),
+                focusedContainerColor = Color.White
             ),
             leadingIcon = {
                 Icon(
@@ -161,11 +160,6 @@ fun HeroSection(menuItemsDatabase: List<MenuItemRoom>) {
                 )
             },
         )
-        if (searchPhrase.isNotEmpty()) {
-            menuItems =
-                menuItemsDatabase.filter { it.title.contains(searchPhrase, ignoreCase = true) }
-        }
-
 
     }
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
@@ -175,57 +169,40 @@ fun HeroSection(menuItemsDatabase: List<MenuItemRoom>) {
             fontWeight = FontWeight.ExtraBold,
             fontSize = 18.sp
         )
+
+        //var filteredMenuItems by remember { mutableStateOf(menuItems) }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp, bottom = 10.dp)
         ) {
-            Button(
-                onClick = {
-                    selectedCategory = "starters"
-                }, modifier = Modifier.height(40.dp), colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFEDEFEE)
-                ), shape = RoundedCornerShape(15.dp)
-            ) {
-                Text(text = "Starters", fontWeight = FontWeight.Bold, color = Color(0xFF4C5E57))
-            }
+            val categories = listOf("starters", "mains", "desserts", "drinks")
 
-            Button(
-                onClick = {
-                    selectedCategory = "mains"
-                }, modifier = Modifier.height(40.dp), colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFEDEFEE)
-                ), shape = RoundedCornerShape(15.dp)
-            ) {
-                Text(text = "Mains", fontWeight = FontWeight.Bold, color = Color(0xFF4C5E57))
-            }
-
-            Button(
-                onClick = {
-                    selectedCategory = "desserts"
-                }, modifier = Modifier.height(40.dp), colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFEDEFEE)
-                ), shape = RoundedCornerShape(15.dp)
-            ) {
-                Text(text = "Desserts", fontWeight = FontWeight.Bold, color = Color(0xFF4C5E57))
-            }
-
-            Button(
-                onClick = {
-                    selectedCategory = "drinks"
-                }, modifier = Modifier.height(40.dp), colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFEDEFEE)
-                ), shape = RoundedCornerShape(15.dp)
-            ) {
-                Text(text = "Drinks", fontWeight = FontWeight.Bold, color = Color(0xFF4C5E57))
+            categories.forEach { category ->
+                Button(
+                    onClick = {
+                        selectedCategory = if (selectedCategory == category) "" else category
+                    },
+                    modifier = Modifier.height(40.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedCategory == category) Color(0xFFEECF00) else Color(0xFFEDEFEE)
+                    ),
+                    shape = RoundedCornerShape(15.dp)
+                ) {
+                    Text(
+                        text = category.replaceFirstChar { it.uppercase() },
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF4C5E57)
+                    )
+                }
             }
         }
+
+        MenuItems(menuItemsList = filteredMenuItems)
+
+
     }
-    if (selectedCategory.isNotEmpty()) {
-        menuItems = menuItems.filter { it.category.contains(selectedCategory) }
-    }
-    MenuItems(menuItemsList = menuItems)
 }
 
 
@@ -243,8 +220,9 @@ fun MenuItems(menuItemsList: List<MenuItemRoom>) {
 
 @Composable
 fun MenuItem(menuItem: MenuItemRoom) {
-    Divider(
-        thickness = 2.dp, color = Color(0xFFDDDDDD), modifier = Modifier.padding(vertical = 15.dp)
+    HorizontalDivider(
+        modifier = Modifier.padding(vertical = 15.dp),
+        thickness = 2.dp, color = Color(0xFFDDDDDD)
     )
     Column(verticalArrangement = Arrangement.SpaceBetween) {
         Text(text = menuItem.title, fontWeight = FontWeight.Bold, fontSize = 15.sp)
@@ -267,7 +245,8 @@ fun MenuItem(menuItem: MenuItemRoom) {
                 painter = rememberAsyncImagePainter(menuItem.image),
                 modifier = Modifier
                     .padding(start = 15.dp)
-                    .size(100.dp),
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
