@@ -23,8 +23,8 @@ Android Build Tools
 
 ## Screenshots
 <p align="center">
-  <img src="OnBoardingScreen.png" width="228">
-  <img src="HomeScreen.png" width="228">
+  <img src="OnBoardingScreen.png" width="228"><br>
+  <img src="HomeScreen.png" width="228"><br>
   <img src="ProfileScreen.png" width="228">
 </p>
 
