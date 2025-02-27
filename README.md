@@ -6,7 +6,7 @@ This Android application is the final project of the Coursera Capstone by META. 
 
 ## Application Flow
 <p>
-  <img src="navigation_diagram.png" width="823"> <!-- 50% of 1646px -->
+  <img src="navigation_diagram.png" width="412">
 </p>
 
 ## Features
@@ -21,9 +21,9 @@ Android Build Tools
 
 ## Wireframe Designs
 <p>
-  <img src="FigmaWireframeDesign.png" width="220"> <!-- 50% of 439px -->
+  <img src="FigmaWireframeDesign.png" width="220">
 </p>
-🔗 ![Figma Link](https://www.figma.com/design/3kEkgRCPhiUqvEvwAqGKUX/Little-Lemon-Menu-App-Prototype?node-id=0-1&t=TmwZAxXelm25R4xC-1)
+🔗 **[Figma Link](https://www.figma.com/design/3kEkgRCPhiUqvEvwAqGKUX/Little-Lemon-Menu-App-Prototype?node-id=0-1&t=TmwZAxXelm25R4xC-1)
 
 ## Screenshots
 <table>
