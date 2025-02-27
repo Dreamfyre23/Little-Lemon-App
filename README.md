@@ -20,10 +20,10 @@ Android SDK
 Android Build Tools
 
 ## Wireframe Designs
+🔗 **[Figma Link](https://www.figma.com/design/3kEkgRCPhiUqvEvwAqGKUX/Little-Lemon-Menu-App-Prototype?node-id=0-1&t=TmwZAxXelm25R4xC-1)
 <p>
   <img src="FigmaWireframeDesign.png" width="220">
 </p>
-🔗 **[Figma Link](https://www.figma.com/design/3kEkgRCPhiUqvEvwAqGKUX/Little-Lemon-Menu-App-Prototype?node-id=0-1&t=TmwZAxXelm25R4xC-1)
 
 ## Screenshots
 <table>
